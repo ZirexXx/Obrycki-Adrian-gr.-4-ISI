@@ -1,0 +1,21 @@
+//Zadanie 2
+ALTER TABLE postac ADD COLUMN PESEL varchar(11);
+ALTER TABLE postac ADD PRIMARY KEY(PESEL);
+ALTER TABLE postac MODIFY rodzaj enum('wiking','ptak','kobieta','syrena');
+INSERT INTO postac(id_postaci,nazwa,rodzaj,data_ur,wiek,statek,PESEL) values(7,'Gertruda Nieszczera','syrena',''2010-18-11',10,'12345678908');
+//Zadanie 3
+UPDATE postac SET statek='Wojownik' WHERE nazwa like '%a%';
+UPDATE statek SET max_ladownosc=max_ladownosc*0.7 WHERE data_wodowania BETWEEN '1901-01-01' AND '2000-12-31';
+ALTER TABLE postac ADD CHECK(wiek <= 1000);
+//Zadanie 4
+INSERT INTO postac(id_postaci,nazwa,data_ur,wiek,PESEL) VALUES(8,'waz Loko','2019-04-15',1,19041515831);
+CREATE TABLE marynarz SELECT * FROM postac;
+DELETE FROM marynarz WHERE statek IS NULL;
+//Zadanie 5
+UPDATE postac SET statek=NULL where statek IS NOT NULL;
+DELETE FROM postac WHERE nazwa='Andrew';
+DELETE FROM statek WHERE nazwa_statku IS NOT NULL;
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+DROP TABLE statek;
+CREATE TABLE zwierz(id INT PRIMARY KEY AUTO_INCREMENT, nazwa VARCHAR(45), wiek INT UNSIGNED);
+INSERT INTO zwierz(nazwa,wiek) SELECT nazwa,wiek FROM postac WHERE rodzaj='ptak';
