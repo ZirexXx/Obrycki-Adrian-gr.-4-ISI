@@ -1,0 +1,6 @@
+SELECT DISTINCT(rodzaj) FROM kreatura;
+SELECT CONCAT(nazwa, " - ", rodzaj) FROM kreatura WHERE rodzaj LIKE 'wi%';
+SELECT ilosc*waga FROM zasob WHERE dataPozyskania BETWEEN '2000-01-01' AND '2007-12-31';
+SELECT waga*0.7 AS masa_netto, waga*0.3 AS odpadki FROM zasob WHERE rodzaj='jedzenie';
+SELECT * FROM zasob WHERE rodzaj IS NULL;
+SELECT DISTINCT(rodzaj), nazwa FROM zasob WHERE nazwa LIKE 'ba%' or nazwa LIKE '%os' ORDER BY nazwa ASC;
