@@ -1,0 +1,8 @@
+CREATE TABLE kreatura2 SELECT * FROM wikingowie.kreatura;
+CREATE TABLE uczestnicy SELECT * FROM wikingowie.uczestnicy;
+CREATE TABLE etapy_wyprawy SELECT * FROM wikingowie.etapy_wyprawy;
+CREATE TABLE sektor SELECT * FROM wikingowie.sektor;
+CREATE TABLE wyprawa SELECT * FROM wikingowie.wyprawa;
+
+SELECT * FROM kreatura2 WHERE idKreatury NOT IN (SELECT id_uczestnika FROM uczestnicy);
+SELECT w.nazwa, sum(e.ilosc) AS ilosc_ekwipunku FROM wyprawa w INNER JOIN uczestnicy u ON w.id_wyprawy=u.id_wyprawy INNER JOIN kreatura2 k ON u.id_uczestnika=k.idKreatury INNER JOIN ekwipunek e ON k.idKreatury=e.idEkwipunku GROUP BY w.nazwa;
