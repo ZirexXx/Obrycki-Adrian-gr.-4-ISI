@@ -6,3 +6,18 @@ CREATE TABLE wyprawa SELECT * FROM wikingowie.wyprawa;
 
 SELECT * FROM kreatura2 WHERE idKreatury NOT IN (SELECT id_uczestnika FROM uczestnicy);
 SELECT w.nazwa, sum(e.ilosc) AS ilosc_ekwipunku FROM wyprawa w INNER JOIN uczestnicy u ON w.id_wyprawy=u.id_wyprawy INNER JOIN kreatura2 k ON u.id_uczestnika=k.idKreatury INNER JOIN ekwipunek e ON k.idKreatury=e.idEkwipunku GROUP BY w.nazwa;
+
+SELECT rodzaj, GROUP_CONCAT(nazwa, " ", idKreatury SEPARATOR '->') FROM kreatura GROUP BY rodzaj;
+SELECT e.idEtapu, k.nazwa, s.nazwa, w.data_rozpoczecia FROM etapy_wyprawy e INNER JOIN sektor s ON e.sektor=s.id_sektora INNER JOIN wyprawa w ON e.idWyprawy=w.id_wyprawy INNER JOIN kreatura2 k ON w.kierownik=k.idKreatury ORDER BY w.data_rozpoczecia, e.kolejnosc;
+
+SELECT id_sektora,IFNULL(COUNT(idWyprawy),0) AS liczba_odwiedzin FROM etapy_wyprawy e RIGHT JOIN sektor s ON e.sektor=s.id_sektora GROUP BY id_sektora ORDER BY id_sektora;
+SELECT nazwa,IF(COUNT(id_wyprawy)>0,"bral udzial w wyprawie","nie bral udzialu w wyprawie") FROM kreatura2 k LEFT JOIN uczestnicy u ON k.idKreatury=u.id_uczestnika GROUP BY nazwa;
+
+SELECT nazwa, LENGTH(nazwa) FROM kreatura;
+SELECT nazwa, LENGTH(dataUr) FROM kreatura;
+SELECT nazwa, udzwig, LENGTH(udzwig) FROM kreatura;
+
+SELECT w.nazwa, SUM(LENGTH(e.dziennik)) AS liczba_znakow FROM wyprawa w INNER JOIN etapy_wyprawy e ON w.id_wyprawy=e.idWyprawy GROUP BY w.nazwa HAVING SUM(LENGTH(e.dziennik))<400;
+SELECT w.nazwa, COUNT(DISTINCT(u.id_uczestnika)), SUM(e.ilosc*z.waga)/COUNT(DISTINCT(u.id_uczestnika)) AS "średnia waga" FROM wyprawa AS w LEFT JOIN uczestnicy AS u ON w.id_wyprawy = u.id_wyprawy LEFT JOIN kreatura AS k ON u.id_uczestnika = k.idKreatury LEFT JOIN ekwipunek AS e ON k.idKreatury= e.idKreatury LEFT JOIN zasob AS z ON e.idZasobu = z.idZasobu GROUP BY w.nazwa;
+
+SELECT k.nazwa, DATEDIFF(w.data_rozpoczecia, k.dataUr) AS wiek_dni FROM kreatura2 k INNER JOIN uczestnicy u ON k.idKreatury=u.id_uczestnika INNER JOIN wyprawa w ON u.id_wyprawy=w.id_wyprawy INNER JOIN etapy_wyprawy e ON w.id_wyprawy=e.idWyprawy INNER JOIN sektor s ON e.sektor=s.id_sektora WHERE s.id_sektora=7;
