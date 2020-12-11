@@ -1,0 +1,22 @@
+DELIMITER //
+CREATE TRIGGER waga_before_insert
+BEFORE INSERT ON kreatura
+FOR EACH ROW
+BEGIN
+  IF NEW.waga<0
+  THEN 
+   SET NEW.waga=0;
+  END IF;
+  END
+ // DELIMITER;
+
+CREATE TABLE archiwum_wypraw LIKE wyprawa;
+ALTER TABLE archiwum_wypraw MODIFY COLUMN kierownik varchar(45); 
+DELIMITER //
+CREATE TRIGGER usunieta_wyprawa
+AFTER DELETE ON wyprawa
+FOR EACH ROW
+BEGIN
+INSERT INTO archiwum_wypraw VALUES(OLD.id_wyprawy, OLD.nazwa, OLD.data_rozpoczecia, OLD.data_zakonczenia, (SELECT nazwa FROM kreatura WHERE idKreatury=OLD.kierownik));
+END
+// DELIMITER;
