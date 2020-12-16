@@ -52,3 +52,11 @@ BEGIN
 END
 $$ 
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE avg_sum_max(OUT avg DOUBLE, OUT sum DOUBLE, OUT max DOUBLE)
+BEGIN
+ SELECT AVG(udzwig), SUM(udzwig), MAX(udzwig) INTO avg, sum, max FROM kreatura;
+END
+$$
+DELIMITER;
