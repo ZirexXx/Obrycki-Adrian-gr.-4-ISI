@@ -44,11 +44,11 @@ CREATE TRIGGER alarm
 AFTER INSERT ON uczestnicy
 FOR EACH ROW
 BEGIN
-IF 
-(SELECT id_uczestnika=14 FROM uczestnicy WHERE id_wyprawy=NEW.id_wyprawy) AND (SELECT sektor=7 FROM etapy_wyprawy WHERE idWyprawy=NEW.id_wyprawy)
-THEN
-INSERT INTO system_alarmowy(wiadomosc) VALUES('Tesciowa nadchodzi!!!');
-END IF;
+  IF 
+    (SELECT id_uczestnika=14 FROM uczestnicy WHERE id_wyprawy=NEW.id_wyprawy) AND (SELECT sektor=7 FROM etapy_wyprawy WHERE idWyprawy=NEW.id_wyprawy)
+  THEN
+    INSERT INTO system_alarmowy(wiadomosc) VALUES('Tesciowa nadchodzi!!!');
+  END IF;
 END
 $$ 
 DELIMITER ;
