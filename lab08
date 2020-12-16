@@ -20,3 +20,35 @@ BEGIN
 INSERT INTO archiwum_wypraw VALUES(OLD.id_wyprawy, OLD.nazwa, OLD.data_rozpoczecia, OLD.data_zakonczenia, (SELECT nazwa FROM kreatura WHERE idKreatury=OLD.kierownik));
 END
 // DELIMITER;
+
+DELIMITER //
+CREATE PROCEDURE eliksir_sily(IN id int)
+BEGIN
+  Update kreatura set udzwig = 1.2 * udzwig where idKreatury = id;
+END
+// DELIMITER ;
+
+DELIMITER //
+CREATE FUNCTION wielkie_litery (tekst VARCHAR(45))
+RETURNS VARCHAR(45)
+BEGIN
+  DECLARE str VARCHAR(45);
+  SELECT UPPER(tekst) INTO str;
+  RETURN str;
+END
+// DELIMITER ;
+
+CREATE TABLE system_alarmowy (id_alarmu INT AUTO_INCREMENT, wiadomosc VARCHAR(255), PRIMARY KEY(id_alarmu));
+DELIMITER $$
+CREATE TRIGGER alarm
+AFTER INSERT ON uczestnicy
+FOR EACH ROW
+BEGIN
+IF 
+(SELECT id_uczestnika=14 FROM uczestnicy WHERE id_wyprawy=NEW.id_wyprawy) AND (SELECT sektor=7 FROM etapy_wyprawy WHERE idWyprawy=NEW.id_wyprawy)
+THEN
+INSERT INTO system_alarmowy(wiadomosc) VALUES('Tesciowa nadchodzi!!!');
+END IF;
+END
+$$ 
+DELIMITER ;
