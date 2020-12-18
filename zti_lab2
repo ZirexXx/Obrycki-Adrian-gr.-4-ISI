@@ -1,0 +1,9 @@
+1. SELECT p.imie, p.nazwisko, d.nazwa FROM pracownik p INNER JOIN dzial d ON p.dzial=d.id_dzialu;
+2. SELECT t.nazwa_towaru, k.nazwa_kategori, s.ilosc FROM stan_magazynowy s INNER JOIN towar t ON s.towar=t.id_towaru INNER JOIN kategoria k ON t.kategoria=k.id_kategori ORDER BY s.ilosc DESC;
+3. SELECT * FROM zamowienie WHERE status_zamowienia=6;
+4. SELECT k.id_klienta, k.pelna_nazwa, a.miejscowosc, t.nazwa FROM klient k INNER JOIN adres_klienta a ON k.id_klienta=a.klient INNER JOIN typ_adresu t ON a.typ_adresu=t.id_typu WHERE t.id_typu=1 AND a.miejscowosc='Olsztyn';
+5. SELECT jm.nazwa FROM jednostka_miary jm LEFT JOIN stan_magazynowy s ON jm.id_jednostki=s.jm WHERE s.jm IS NULL;
+6. SELECT z.numer_zamowienia, t.nazwa_towaru, p.ilosc, p.cena FROM zamowienie z INNER JOIN pozycja_zamowienia p ON z.id_zamowienia=p.zamowienie INNER JOIN towar t ON p.towar=t.id_towaru WHERE YEAR(z.data_zamowienia)=2018;
+8. SELECT p.* FROM pozycja_zamowienia p INNER JOIN zamowienie z ON z.id_zamowienia=p.zamowienie ORDER BY z.data_zamowienia LIMIT 5;
+9. SELECT * FROM zamowienie WHERE status_zamowienia !=5;
+10. SELECT * FROM adres_klienta WHERE kod LIKE '__-___';
